@@ -27,8 +27,8 @@
 
     <div class="col-12">
     <div class="col-2" id="cuenta">
-      <p class="fw-semibold">Total: <p class="fw-bold" id="totalContador"></p></p>
-      <p class="fw-semibold">Realizadas: <p class="fw-bold" id="realizadasContador"></p></p>
+      <p class="fw-semibold"><p class="fw-bold" id="totalContador"></p></p>
+      <p class="fw-semibold"><p class="fw-bold" id="realizadasContador"></p></p>
     </div>
 
 
@@ -44,12 +44,12 @@
               </tr>
             </thead>
             <tbody id="tableTemplate">
-              <tr>
+              <tr id="elementoTable">
                 <td></td>
                 <td></td>
                 <td>
                   <div class="custom-control custom-checkbox">
-                    <input type="checkbox" class="custom-control-input" id="checkBox"  onchange="Check(this)">
+                    <input type="checkbox" class="custom-control-input" id="checkBox" onChange="conteoTareas(this)">
                     <button class="btn btn-danger" type="button" id="btnBorrar">x</button>
                     <label class="custom-control-label" for="customCheck1"></label>
                   </div>

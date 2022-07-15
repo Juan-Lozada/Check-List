@@ -3,7 +3,10 @@ const inputTarea = document.querySelector("#inputTarea");
 const aggTarea = document.querySelector('#aggTarea');
 const tableTemplate = document.querySelector('#tableTemplate');
 const totalContador = document.querySelector('#totalContador');
-const btnBorrar = document.querySelector('#btnBorrar')
+const btnBorrar = document.querySelector('#btnBorrar');
+const realizadasContador = document.querySelector('#realizadasContador');
+const elementoTable = document.querySelector('#elementoTable')
+
 
 const tareas = [
     {id: 25, nombre: "Hacer compras"},
@@ -17,12 +20,8 @@ const tareas = [
   // --- Carga inicial
   document.addEventListener('DOMContentLoaded', (event) =>{
     
-
-
     aggTarea.addEventListener('click', agregar)
-    cargaInicial(tableTemplate);
-
-
+    cargaInicial();
   });
 
 
@@ -33,23 +32,16 @@ const tareas = [
   return Math.floor(Math.random() * (max - min + 1) + min); 
 }
 
-function cargaInicial(tableTemplate) {
-
-    let tabla = "";
-    for (const tarea of tareas) {
-      tabla += renderTareas(tarea);
-    }
-    console.log(tabla)
-    tableTemplate.innerHTML = tabla;
+function cargaInicial() {
+    renderTareas();
   }
 
 // --- Template
 
 
 // -- agregamos la tarea
-  function agregar(tarea) {
-     
-    if (inputTarea == "" ||  inputTarea == null || inputTarea == undefined){
+  function agregar() {    
+    if (inputTarea.value == ""){
       alert('Debe rellenar el campo')
       return
     } else {
@@ -57,6 +49,7 @@ function cargaInicial(tableTemplate) {
         tareas.push({id: ramdonNum(), nombre: tareaNueva});
         inputTarea.value = "";
         renderTareas();
+        console.log(renderTareas())
   }
 
    
@@ -65,18 +58,19 @@ function cargaInicial(tableTemplate) {
 // -- hacemos un render para reutilizar codigo
   function renderTareas() {
     
+    let checkValue = document.querySelector('#checkBox');
     let html = "";
     let contadorTareas = "";
 
     for (tarea of tareas){
 
       html += `
-        <tr>
+        <tr id="elementoTable">
         <td>${tarea.id}</td>
         <td>${tarea.nombre}</td>
         <td>
           <div class="custom-control custom-checkbox">
-            <input type="checkbox" class="custom-control-input" id="customCheck1">
+            <input type="checkbox" class="custom-control-input" id="checkBox" onChange="conteoTareas(this)">
             <button class="btn btn-danger btn-sm" type="button" onClick=borrar(${tarea.id})>x</button>
             <label class="custom-control-label" for="customCheck1"></label>
           </div>
@@ -89,8 +83,7 @@ function cargaInicial(tableTemplate) {
 
     tableTemplate.innerHTML = html;
     totalContador.innerHTML = contadorTareas;
-
-    console.log(renderTareas())
+    checkValue.setAttribute("onChange", "conteoTareas(this)");
   }
 
 
@@ -102,16 +95,23 @@ function borrar(id) {
   renderTareas();
 }
 
+function conteoRealizadas(cont){
+  console.log(cont);
+  conteoRealizadas++;
+  realizadasContador.innerHTML = conteoRealizadas;
+}
 
-// -- funcion checkBox
-  function Check(checkValue) {
-    
-    let checkBox = document.querySelector("#checkBox");
-    let text = document.getElementById("text");
 
-    if (checkBox.checked == true) {
-        text.style.display = "block";
-    } else {
-        text.style.display = "none";
-    }
+
+function conteoTareas(cb){  
+  let conteoTareas = "";
+  
+  if (cb.checked == true){
+    tareas.nombre.style.textDecoration = "line-through";
+    conteoTareas ++;
+  } else {
+    conteoTareas --;
+  }
+  console.log(conteoTareas)
+  realizadasContador.innerHTML = `<p class="fw-semibold">Realizadas: ${conteoTareas}</p>`
 }
