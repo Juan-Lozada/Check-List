@@ -2,10 +2,14 @@ let tareaNueva;
 const inputTarea = document.querySelector("#inputTarea");
 const aggTarea = document.querySelector('#aggTarea');
 const tableTemplate = document.querySelector('#tableTemplate');
+
 const totalContador = document.querySelector('#totalContador');
-const btnBorrar = document.querySelector('#btnBorrar');
 const realizadasContador = document.querySelector('#realizadasContador');
-const elementoTable = document.querySelector('#elementoTable')
+
+
+const btnBorrar = document.querySelector('#btnBorrar');
+const checkValue = document.querySelector('#checkBox');
+const nombreTarea = document.querySelector('#nombreTarea');
 
 
 const tareas = [
@@ -21,7 +25,7 @@ const tareas = [
   document.addEventListener('DOMContentLoaded', (event) =>{
     
     aggTarea.addEventListener('click', agregar)
-    cargaInicial();
+    renderTareas();
   });
 
 
@@ -32,11 +36,6 @@ const tareas = [
   return Math.floor(Math.random() * (max - min + 1) + min); 
 }
 
-function cargaInicial() {
-    renderTareas();
-  }
-
-// --- Template
 
 
 // -- agregamos la tarea
@@ -57,8 +56,6 @@ function cargaInicial() {
 
 // -- hacemos un render para reutilizar codigo
   function renderTareas() {
-    
-    let checkValue = document.querySelector('#checkBox');
     let html = "";
     let contadorTareas = "";
 
@@ -67,7 +64,7 @@ function cargaInicial() {
       html += `
         <tr id="elementoTable">
         <td>${tarea.id}</td>
-        <td>${tarea.nombre}</td>
+        <td id="nombreTarea">${tarea.nombre}</td>
         <td>
           <div class="custom-control custom-checkbox">
             <input type="checkbox" class="custom-control-input" id="checkBox" onChange="conteoTareas(this)">
@@ -83,35 +80,36 @@ function cargaInicial() {
 
     tableTemplate.innerHTML = html;
     totalContador.innerHTML = contadorTareas;
-    checkValue.setAttribute("onChange", "conteoTareas(this)");
+
   }
 
 
 // -- funcion borrar
 function borrar(id) {
-
-  const index = tareas.findIndex((ele) => ele.id == id)
+  const index = tareas.findIndex((ele) => ele.id == id);
   tareas.splice(index, 1)
   renderTareas();
 }
 
-function conteoRealizadas(cont){
-  console.log(cont);
+// definiendo el contador
+function conteoRealizadas(conteo) {
+  console.log(conteo);
   conteoRealizadas++;
   realizadasContador.innerHTML = conteoRealizadas;
 }
 
+let conteo = 0;
 
 
-function conteoTareas(cb){  
-  let conteoTareas = "";
-  
-  if (cb.checked == true){
-    tareas.nombre.style.textDecoration = "line-through";
-    conteoTareas ++;
+// funcion contador de tareas
+function conteoTareas(v){  
+  console.log(conteo);
+  if (v.checked === true){
+    
+    conteo ++;
   } else {
-    conteoTareas --;
+    conteo --;
   }
   console.log(conteoTareas)
-  realizadasContador.innerHTML = `<p class="fw-semibold">Realizadas: ${conteoTareas}</p>`
+  realizadasContador.innerHTML = `<p class="fw-semibold">Realizadas: ${conteo}</p>`
 }
