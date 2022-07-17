@@ -105,9 +105,10 @@ let conteo = 0;
 function conteoTareas(v){  
   console.log(conteo);
   if (v.checked === true){
-    
+    v.parentNode.style.backgroundColor = "green";
     conteo ++;
   } else {
+    v.parentNode.style.backgroundColor = "transparent";
     conteo --;
   }
   console.log(conteoTareas)
